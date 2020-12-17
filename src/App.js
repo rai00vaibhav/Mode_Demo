@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {getList} from './actions';
+import {getList,selectItemList} from './actions';
 import {bindActionCreators} from 'redux';
 import Header from './components/Header';
 import styles from './App.css';
@@ -10,7 +10,9 @@ class App extends Component {
   componentDidMount() {
     this.props.getList();
   }
-
+  cardSelection(item){
+    this.props.selectItemList(item);
+  }
   render() {
     console.log(this.props);
     return (
@@ -26,9 +28,10 @@ class App extends Component {
             </Button>
               <div style={{padding:"1em"}}> 
                 {
-                  this.props.list ? 
+                  this.props.list && this.props.list.length ? 
                   this.props.list.map((item,index) => (
-                    <div key={index} className="title-list">
+                    <div key={index} className="title-list" onClick={(e) => this.cardSelection(item)}>
+                      {item.selected == true ? (<div>Selected</div>): ""}
                       <strong>{item.title}</strong>
                       <p>{item.body}</p>
                     </div>
@@ -46,11 +49,12 @@ class App extends Component {
 
 function mapStateToProps(state){
   return {
-    list: state.list
+    list: state.list.data,
+    selectedItems: state.list.selectedItems
   }
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({getList},dispatch)
+  return bindActionCreators({getList,selectItemList},dispatch)
 }
 export default connect(mapStateToProps,mapDispatchToProps)(App);
