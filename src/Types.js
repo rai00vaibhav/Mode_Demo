@@ -1,1 +1,1 @@
-export const MOVIES_LIST = 'movies_list';
+export const LIST_DATA = 'list_data';

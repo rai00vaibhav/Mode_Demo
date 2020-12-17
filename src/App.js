@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {moviesList} from './actions';
+import {getList} from './actions';
 import {bindActionCreators} from 'redux';
 import Header from './components/Header';
 import styles from './App.css';
+import Button from '@material-ui/core/Button';
 class App extends Component {
 
   componentDidMount() {
-    this.props.moviesList();
+    this.props.getList();
   }
 
   render() {
@@ -20,10 +21,13 @@ class App extends Component {
           </div>
           <div className="sideBody">
             <div className="sideBodyInner" style={{boxShadow: "none"}}>
+            <Button variant="contained" color="primary">
+              Hello World
+            </Button>
               <div style={{padding:"1em"}}> 
                 {
-                  this.props.movies ? 
-                  this.props.movies.map((item,index) => (
+                  this.props.list ? 
+                  this.props.list.map((item,index) => (
                     <div key={index} className="title-list">
                       <strong>{item.title}</strong>
                       <p>{item.body}</p>
@@ -42,11 +46,11 @@ class App extends Component {
 
 function mapStateToProps(state){
   return {
-    movies: state.movies
+    list: state.list
   }
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({moviesList},dispatch)
+  return bindActionCreators({getList},dispatch)
 }
 export default connect(mapStateToProps,mapDispatchToProps)(App);
